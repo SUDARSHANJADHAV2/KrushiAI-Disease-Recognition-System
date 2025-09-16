@@ -1,0 +1,27 @@
+[logger]
+level = "info"
+
+[runner]
+magicEnabled = true
+postScriptGC = true
+
+[server]
+port = 8501
+baseUrlPath = ""
+enableCORS = true
+maxUploadSize = 200
+headless = false
+runOnSave = false
+cookieSecret = "krushiai-plant-disease-detection-2024"
+
+[browser]
+serverAddress = "localhost"
+gatherUsageStats = false
+
+[theme]
+base = "dark"
+primaryColor = "#667eea"
+backgroundColor = "#0e1117"
+secondaryBackgroundColor = "#1e1e1e"
+textColor = "#fafafa"
+font = "sans serif"
