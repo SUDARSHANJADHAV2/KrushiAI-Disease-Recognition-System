@@ -5,22 +5,46 @@ with detailed analysis, treatment recommendations, and expert insights.
 """
 
 import streamlit as st
-import numpy as np
-import pandas as pd
-import plotly.express as px
-import plotly.graph_objects as go
-from plotly.subplots import make_subplots
-import json
-import os
-from datetime import datetime
-from PIL import Image
-from streamlit_option_menu import option_menu
-import base64
-from io import BytesIO
+import sys
+import logging
+import traceback
 
-# Import custom modules
-from utils import ImageProcessor, ModelPredictor, ModelAnalyzer, format_disease_name, get_severity_color, create_confidence_message
-from disease_info import get_disease_info, get_all_diseases, get_diseases_by_plant, get_severity_stats
+# Configure logging for deployment debugging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
+
+try:
+    import numpy as np
+    import pandas as pd
+    import plotly.express as px
+    import plotly.graph_objects as go
+    from plotly.subplots import make_subplots
+    import json
+    import os
+    from datetime import datetime
+    from PIL import Image
+    from streamlit_option_menu import option_menu
+    import base64
+    from io import BytesIO
+    
+    # Import custom modules with error handling
+    logger.info("Loading custom modules...")
+    from utils import ImageProcessor, ModelPredictor, ModelAnalyzer, format_disease_name, get_severity_color, create_confidence_message
+    from disease_info import get_disease_info, get_all_diseases, get_diseases_by_plant, get_severity_stats
+    logger.info("All modules loaded successfully")
+    
+except ImportError as e:
+    logger.error(f"Import error: {str(e)}")
+    st.error(f"Failed to import required modules: {str(e)}")
+    st.error("Please check if all dependencies are installed correctly.")
+    st.stop()
+except Exception as e:
+    logger.error(f"Unexpected error during import: {str(e)}")
+    st.error(f"Unexpected error: {str(e)}")
+    st.stop()
 
 # ============================
 # PAGE CONFIGURATION
@@ -245,15 +269,68 @@ def load_image_as_base64(image_path):
 def load_model_predictor():
     """Load the model predictor (cached)"""
     try:
-        return ModelPredictor("trained_plant_disease_model.keras")
+        logger.info("Attempting to load model predictor...")
+        
+        # Check if model file exists first
+        model_path = "trained_plant_disease_model.keras"
+        if not os.path.exists(model_path):
+            logger.error(f"Model file not found: {model_path}")
+            st.error(f"Model file '{model_path}' not found. Please ensure the model file is in the project directory.")
+            return None
+        
+        # Check file size to ensure it's not corrupted
+        file_size = os.path.getsize(model_path)
+        logger.info(f"Model file size: {file_size / (1024*1024):.1f} MB")
+        
+        if file_size < 1000:  # Less than 1KB indicates a problem
+            logger.error("Model file appears to be corrupted (too small)")
+            st.error("Model file appears to be corrupted. Please check the file.")
+            return None
+        
+        # Try to load the predictor
+        predictor = ModelPredictor(model_path)
+        logger.info("Model predictor loaded successfully")
+        return predictor
+        
     except Exception as e:
-        st.error(f"Error loading model: {str(e)}")
+        logger.error(f"Error loading model predictor: {str(e)}")
+        logger.error(f"Traceback: {traceback.format_exc()}")
+        
+        # Show detailed error to user
+        st.error("❌ Failed to load the AI model")
+        st.error(f"Error details: {str(e)}")
+        
+        # Provide troubleshooting information
+        with st.expander("🔧 Troubleshooting Information"):
+            st.write("**Possible solutions:**")
+            st.write("1. Ensure the model file 'trained_plant_disease_model.keras' exists")
+            st.write("2. Check if TensorFlow is properly installed")
+            st.write("3. Verify the model file is not corrupted")
+            st.write("4. Try restarting the application")
+            
         return None
 
 @st.cache_resource
 def load_model_analyzer():
     """Load the model analyzer (cached)"""
-    return ModelAnalyzer("training_hist.json")
+    try:
+        logger.info("Loading model analyzer...")
+        
+        # Check if history file exists
+        hist_path = "training_hist.json"
+        if not os.path.exists(hist_path):
+            logger.warning(f"Training history file not found: {hist_path}")
+            # Create a dummy analyzer for cases where history is missing
+            return None
+        
+        analyzer = ModelAnalyzer(hist_path)
+        logger.info("Model analyzer loaded successfully")
+        return analyzer
+        
+    except Exception as e:
+        logger.error(f"Error loading model analyzer: {str(e)}")
+        # Don't show error to user as this is non-critical
+        return None
 
 def create_feature_comparison_chart(features):
     """Create a feature comparison chart"""
@@ -1157,5 +1234,41 @@ def show_about_page():
 # APPLICATION ENTRY POINT
 # ============================
 
+def run_app():
+    """Main application runner with error handling"""
+    try:
+        logger.info("Starting KrushiAI application...")
+        logger.info(f"Python version: {sys.version}")
+        logger.info(f"Streamlit version: {st.__version__}")
+        
+        # Check critical files exist
+        critical_files = ['utils.py', 'disease_info.py', 'trained_plant_disease_model.keras']
+        missing_files = [f for f in critical_files if not os.path.exists(f)]
+        
+        if missing_files:
+            st.error("❌ Critical files missing:")
+            for file in missing_files:
+                st.error(f"• {file}")
+            st.error("Please ensure all required files are present in the project directory.")
+            return
+        
+        # Run the main application
+        main()
+        
+    except Exception as e:
+        logger.error(f"Application error: {str(e)}")
+        logger.error(f"Traceback: {traceback.format_exc()}")
+        
+        st.error("🚨 Application Error")
+        st.error(f"An unexpected error occurred: {str(e)}")
+        
+        with st.expander("🔧 Error Details (for debugging)"):
+            st.text(traceback.format_exc())
+            st.write("**System Information:**")
+            st.write(f"• Python version: {sys.version}")
+            st.write(f"• Streamlit version: {st.__version__}")
+            st.write(f"• Current working directory: {os.getcwd()}")
+            st.write(f"• Available files: {os.listdir('.')}")
+
 if __name__ == "__main__":
-    main()
+    run_app()

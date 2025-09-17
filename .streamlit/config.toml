@@ -1,22 +1,13 @@
+[server]
+maxUploadSize = 200
+enableCORS = true
+headless = true
+
 [logger]
-level = "info"
+level = "warning"
 
 [runner]
-magicEnabled = true
-postScriptGC = true
-
-[server]
-port = 8501
-baseUrlPath = ""
-enableCORS = true
-maxUploadSize = 200
-headless = false
-runOnSave = false
-cookieSecret = "krushiai-plant-disease-detection-2024"
-
-[browser]
-serverAddress = "localhost"
-gatherUsageStats = false
+fastReruns = true
 
 [theme]
 base = "dark"
