@@ -8,6 +8,11 @@
 
 An advanced AI-powered plant disease detection system that helps farmers, gardeners, and agricultural professionals identify plant diseases with high accuracy and provides detailed treatment recommendations.
 
+## 🚀 Live Demo
+
+You can access the live application here:
+[🌿 KrushiAI - Advanced Plant Disease Detection System](https://krushiai-disease-recognition-system.streamlit.app/)
+
 ## 🚀 Features
 
 ### 🔬 AI-Powered Detection
