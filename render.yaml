@@ -4,7 +4,7 @@ services:
     env: python
     plan: free
     rootDir: backend
-buildCommand: pip install --upgrade pip setuptools wheel && pip install -r requirements.txt && python scripts/generate_synth_data.py && python train.py --data-dir tmpdata --out model/model.joblib
+    buildCommand: pip install --upgrade pip setuptools wheel && pip install -r requirements.txt
     startCommand: gunicorn app:app --preload --workers 2 --threads 4 --timeout 120 --bind 0.0.0.0:$PORT
     autoDeploy: true
     healthCheckPath: /

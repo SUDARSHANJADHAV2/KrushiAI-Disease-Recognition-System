@@ -1,44 +1,119 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>AI Disease Recognition</title>
-    <link rel="stylesheet" href="styles.css" />
-    <script src="config.js" defer></script>
-    <script src="script.js" defer></script>
-  </head>
-  <body>
-    <header>
-      <h1>AI Disease Recognition</h1>
-      <p>Upload a plant leaf image to detect the disease.</p>
-    </header>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KrushiAI - Disease Recognition</title>
+  <!-- Global site styles -->
+  <link rel="stylesheet" href="../../css/style.css" />
+  <!-- Page-specific styles -->
+  <link rel="stylesheet" href="styles.css" />
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="logo">
+      <h1>KrushiAI</h1>
+    </div>
 
-    <main>
+    <nav class="navbar">
+      <a href="https://aifarmerassistant-krushiai.netlify.app/">Home</a>
+      <a href="https://aifarmerassistant-krushiai.netlify.app/">Features</a>
+      <a href="https://aifarmerassistant-krushiai.netlify.app/">About</a>
+      <a href="https://aifarmerassistant-krushiai.netlify.app/">Contact</a>
+      <a href="https://aifarmerassistant-krushiai.netlify.app/krushiai-weather-forecast/">Weather</a>
+      <a href="https://aifarmerassistant-krushiai.netlify.app/guide/">Guide</a>
+      <a href="https://aifarmerassistant-krushiai.netlify.app/explore/" class="btn">EXPLORE NOW</a>
+    </nav>
+
+    <div class="fas fa-bars" id="menu-btn"></div>
+  </header>
+
+  <!-- Page content -->
+  <main class="disease-page">
+    <div class="container">
+      <h1>KrushiAI: Plant Disease Recognition</h1>
+      <p class="subtitle">Upload a plant leaf image and get instant disease detection.</p>
+
       <section class="card">
         <form id="predict-form">
           <div class="form-row">
+            <label for="file" class="file-label">
+              <i class="fas fa-upload"></i> Choose an image
+            </label>
             <input type="file" id="file" name="file" accept="image/*" required />
           </div>
+          <div id="preview" class="preview"></div>
           <div class="form-row">
             <button type="submit" id="submit">Predict</button>
           </div>
         </form>
 
-        <div id="preview"></div>
-        <div id="status" class="muted"></div>
+        <div id="status" class="status muted"></div>
 
-        <div id="result" class="hidden">
+        <div id="result" class="results hidden">
           <h2>Prediction</h2>
-          <p><strong>Label:</strong> <span id="label"></span></p>
+          <div class="prediction-result">
+            <span id="label"></span>
+          </div>
           <h3>Scores</h3>
-          <ul id="scores"></ul>
+          <ul id="scores" class="scores-list"></ul>
         </div>
       </section>
-    </main>
+    </div>
+  </main>
 
-    <footer>
-      <small>Frontend: Netlify • Backend: Render • ML: scikit-learn</small>
-    </footer>
-  </body>
+  <!-- Footer -->
+  <section class="footer" id="footer">
+    <div class="box-container">
+      <div class="box">
+        <h3>quick links</h3>
+        <a href="https://aifarmerassistant-krushiai.netlify.app/"><i class="fas fa-chevron-right"></i>home</a>
+        <a href="https://aifarmerassistant-krushiai.netlify.app/"><i class="fas fa-chevron-right"></i>features</a>
+        <a href="https://aifarmerassistant-krushiai.netlify.app/guide/"><i class="fas fa-chevron-right"></i>guide</a>
+      </div>
+
+      <div class="box">
+        <h3>farming tools</h3>
+        <a href="https://aifarmerassistant-krushiai.netlify.app/krushiai-crop-recommendation/"><i class="fas fa-chevron-right"></i>crop recommendations</a>
+        <a href="https://krushiai-crop-disease-prediction.streamlit.app/" target="_blank"><i class="fas fa-chevron-right"></i>disease detection</a>
+        <a href="https://aifarmerassistant-krushiai.netlify.app/krushiai-weather-forecast/"><i class="fas fa-chevron-right"></i>weather forecast</a>
+      </div>
+
+      <div class="box">
+        <h3>helpful resources</h3>
+        <a href="#"><i class="fas fa-chevron-right"></i> FAQs</a>
+        <a href="#"><i class="fas fa-chevron-right"></i> User Guides</a>
+        <a href="#"><i class="fas fa-chevron-right"></i> Support Center</a>
+      </div>
+
+      <div class="box">
+        <h3>stay connected</h3>
+        <a href="#"><i class="fas fa-chevron-right"></i> Future Updates</a>
+        <a href="#"><i class="fas fa-chevron-right"></i> Community Forum</a>
+        <a href="#"><i class="fas fa-chevron-right"></i> Newsletter</a>
+      </div>
+    </div>
+
+    <div class="social-links">
+      <a href="#" target="_blank"><i class="fab fa-facebook-f"></i></a>
+      <a href="#" target="_blank"><i class="fab fa-twitter"></i></a>
+      <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
+      <a href="#" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+      <a href="#" target="_blank"><i class="fab fa-github"></i></a>
+    </div>
+    
+    <div class="credit">
+      © Copyright 2025 – All Rights Reserved
+      <a href="#" target="_blank"><span>Team KrushiAI</span></a>
+    </div>
+  </section>
+
+  <!-- Scripts -->
+  <script src="../../js/main.js"></script>
+  <script src="config.js" defer></script>
+  <script src="script.js" defer></script>
+</body>
 </html>
