@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>AI Disease Recognition</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="config.js" defer></script>
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+    <header>
+      <h1>AI Disease Recognition</h1>
+      <p>Upload a plant leaf image to detect the disease.</p>
+    </header>
+
+    <main>
+      <section class="card">
+        <form id="predict-form">
+          <div class="form-row">
+            <input type="file" id="file" name="file" accept="image/*" required />
+          </div>
+          <div class="form-row">
+            <button type="submit" id="submit">Predict</button>
+          </div>
+        </form>
+
+        <div id="preview"></div>
+        <div id="status" class="muted"></div>
+
+        <div id="result" class="hidden">
+          <h2>Prediction</h2>
+          <p><strong>Label:</strong> <span id="label"></span></p>
+          <h3>Scores</h3>
+          <ul id="scores"></ul>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <small>Frontend: Netlify • Backend: Render • ML: scikit-learn</small>
+    </footer>
+  </body>
+</html>
