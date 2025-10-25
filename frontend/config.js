@@ -1,2 +1,2 @@
-// Set this to your Render backend URL (e.g., https://ai-disease-backend.onrender.com)
-window.API_BASE_URL = "";
+// Set this to your backend URL
+window.API_BASE_URL = "https://ai-disease-backend.onrender.com";
