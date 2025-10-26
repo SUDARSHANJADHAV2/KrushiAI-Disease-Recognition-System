@@ -1,0 +1,21 @@
+# Netlify config: proxy API requests to your deployed Flask API on Render
+# Replace with your actual backend URL from Render
+
+[[redirects]]
+from = "/predict-image"
+to = "https://ai-disease-backend.onrender.com/predict-image"
+status = 200
+force = true
+
+[[redirects]]
+from = "/"
+to = "https://ai-disease-backend.onrender.com/"
+status = 200
+force = true
+
+# If you add more endpoints, you can proxy a path prefix like /api/* instead
+# [[redirects]]
+# from = "/api/*"
+# to = "https://ai-disease-backend.onrender.com/:splat"
+# status = 200
+# force = true

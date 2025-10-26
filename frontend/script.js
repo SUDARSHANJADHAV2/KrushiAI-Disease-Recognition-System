@@ -7,10 +7,20 @@ const scoresEl = document.getElementById('scores');
 const previewEl = document.getElementById('preview');
 
 let backendReady = false;
-// Auto-detect local vs production
-const isLocal = location.protocol === "file:" || location.hostname === "localhost" || location.hostname === "127.0.0.1" || location.hostname === "";
-const defaultUrl = isLocal ? "http://localhost:5002" : (window.API_BASE_URL || "");
+// Auto-detect local vs production (including Live Server ports like 5500-5599)
+const isLocal = location.protocol === "file:" || 
+                location.hostname === "localhost" || 
+                location.hostname === "127.0.0.1" || 
+                location.hostname === "" ||
+                (location.hostname === "127.0.0.1" && location.port >= "5500" && location.port <= "5599");
+// In production (Netlify), use relative paths (proxied via netlify.toml)
+// In local dev, point to local backend
+const defaultUrl = isLocal ? "http://127.0.0.1:5002" : "";
 let baseUrl = defaultUrl.replace(/\/$/, '');
+
+console.log('[Disease] Page URL:', location.href);
+console.log('[Disease] Detected as local:', isLocal);
+console.log('[Disease] API Base URL:', baseUrl);
 
 function setStatus(msg, isError=false){
   statusEl.textContent = msg;
