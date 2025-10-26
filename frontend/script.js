@@ -7,7 +7,10 @@ const scoresEl = document.getElementById('scores');
 const previewEl = document.getElementById('preview');
 
 let backendReady = false;
-let baseUrl = (window.API_BASE_URL || '').replace(/\/$/, '');
+// Auto-detect local vs production
+const isLocal = location.protocol === "file:" || location.hostname === "localhost" || location.hostname === "127.0.0.1" || location.hostname === "";
+const defaultUrl = isLocal ? "http://localhost:5002" : (window.API_BASE_URL || "");
+let baseUrl = defaultUrl.replace(/\/$/, '');
 
 function setStatus(msg, isError=false){
   statusEl.textContent = msg;
